@@ -103,7 +103,7 @@ class SigmoidLayer(Layer):
         #** START OF YOUR CODE **
         #######################################################################
         # calculate sigmoid value for given x
-        sigmoid = 1 / (1 + math.exp(-x))
+        sigmoid = 1 / (1 + np.exp(-x))
         self._cache_current = x, sigmoid
         return sigmoid
 
