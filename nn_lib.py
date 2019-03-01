@@ -155,11 +155,9 @@ class ReluLayer(Layer):
         #                       ** START OF YOUR CODE **
         #######################################################################
         x, relu = self._cache_current
-        if(x.all() > 0):
-            derivativeActivation = 1
-        else:
-            derivativeActivation = 0
+        derivativeActivation = np.heaviside(x, 0)
         derivative = derivativeActivation * grad_z
+        #print("Derivative " + str(derivative))
         return derivative
         #######################################################################
         #                       ** END OF YOUR CODE **
@@ -546,7 +544,7 @@ class Trainer(object):
             else:
                 trainingData = (input_dataset, target_dataset)
 
-            # Split data into batches of size bacch_size
+            # Split data into batches of size batch_size
             input_batches = np.array_split(trainingData[0], self.batch_size)
             target_batches = np.array_split(trainingData[1], self.batch_size)
 
@@ -627,7 +625,7 @@ class Preprocessor(object):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        return (data - self.min_value)/(self.max_value - self.min_value)
+        return ((data - self.min_value)/(self.max_value - self.min_value))
         #######################################################################
         #                       ** END OF YOUR CODE **
         #######################################################################
@@ -643,7 +641,7 @@ class Preprocessor(object):
         #######################################################################
         #                       ** START OF YOUR CODE **
         #######################################################################
-        return (data*(self.max_value-self.min_value))+self.min_value;
+        return ((data*(self.max_value-self.min_value))+self.min_value)
         #######################################################################
         #                       ** END OF YOUR CODE **
         #######################################################################
@@ -673,6 +671,10 @@ def example_main():
     x_train_pre = prep_input.apply(x_train)
     x_val_pre = prep_input.apply(x_val)
 
+    #print("Trainign: " + str(x_train))
+    #print("Preprocessed: " + str(x_train_pre))
+    #print("Normal: " + str(prep_input.revert(x_train_pre)))
+
     trainer = Trainer(
         network=net,
         batch_size=8,
@@ -694,4 +696,3 @@ def example_main():
 
 if __name__ == "__main__":
     example_main()
-    
