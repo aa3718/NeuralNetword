@@ -108,9 +108,6 @@ RUNNING
 
 
 
-
-
-
 OUTPUT
 
  Neural Networks Library
